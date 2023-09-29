@@ -8,6 +8,7 @@ class CustomAPIError extends Error{
 }
 
 const createCustomError=(StatusCode,message)=>{
+    console.log("Called here")
     return new CustomAPIError(StatusCode,message)
 }
 

@@ -1,23 +1,19 @@
 
 const express=require('express')
 const app=express()
+require('express-async-errors')
 const taskRoute=require('./routes/taskroutes')
 const connectDB=require('./databases/connection.js')
 const errorHandlerMiddleware=require('./middleware/error-handler')
+const notFoundHandler=require('./middleware/not-found')
 const {CustomApiError,createCustomError}=require("./errors/CustomError")
+const notFound = require('./middleware/not-found')
 app.use(express.json())
-app.use(errorHandlerMiddleware)
 app.use('/api/v1/tasks',taskRoute)
-app.use((req,res)=>{
-    return next(createCustomError(404,"URL does Not Exist"))
-})
+app.use(notFoundHandler)
+app.use(errorHandlerMiddleware)
+
 require('dotenv').config()
-
-
-app.get('/',(req,res)=>{
-    res.send("Hello Task Manager")
-})
-
 
 const PORT=3000
 const startServer=async ()=>{
